@@ -18,7 +18,6 @@
 [Rr]elease/
 [Rr]eleases/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
 
@@ -56,6 +55,7 @@ artifacts/
 StyleCopReport.xml
 
 # Files built by Visual Studio
+*.exe
 *_i.c
 *_p.c
 *_i.h
