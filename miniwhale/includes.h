@@ -4,9 +4,9 @@
 #include <windows.h>
 
 // OpenGL stuff
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
 #include <GL/glut.h>
+
 
 // Standard Library stuff
 #include <iostream>
@@ -18,4 +18,6 @@
 
 // My Files
 #include "vector3.h"
-#include "App.h"
+#include "app.h"
+#include "window.h"
+

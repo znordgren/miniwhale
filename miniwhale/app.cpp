@@ -11,23 +11,8 @@
 
 #include "includes.h"
 
-int make_window(GLint height, GLint width)
+
+void app(void)
 {
 
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

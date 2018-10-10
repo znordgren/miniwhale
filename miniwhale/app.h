@@ -1,4 +1,4 @@
 #pragma once
 
+void app(void);
 
-int make_window(GLint, GLint);
