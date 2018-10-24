@@ -16,7 +16,10 @@ void window::make_window(GLint height, GLint width, GLint window_number)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA); // set display mode
 	glutInitWindowSize(width, height);     // set window size
 	glutInitWindowPosition(10, 10);
-	glutCreateWindow("MiniWhale");
+	__glutCreateWindowWithExit("GL 3.3 Test", ExitFunction);
+	//glutCreateWindow("MiniWhale");
+
+
 
 }
 

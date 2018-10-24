@@ -19,11 +19,6 @@
 #define _INIT_HEIGHT_ 500
 #define _INIT_WIDTH_ 700
 
-void mydisplay(void)
-{
-
-}
-
 int main(int argc, char** argv)
 {
 	// Init Window
@@ -48,7 +43,11 @@ int main(int argc, char** argv)
 
 	std::cout << "started glew" << std::endl;
 
-	glutDisplayFunc(mydisplay);
+	app();
+
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+
 	glutMainLoop();
 
 	
