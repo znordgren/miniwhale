@@ -18,20 +18,23 @@
     <ClCompile Include="window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="app.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="launcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="manager.cpp">
+    <ClCompile Include="whale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dino.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texload.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="underwater.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -41,15 +44,52 @@
     <ClInclude Include="window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="manager.h">
+    <ClInclude Include="vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vertex.h">
+    <ClInclude Include="whale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texload.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\simpleShader.frag" />
-    <None Include="shaders\simpleShader.vert" />
+    <None Include="floor.rgb" />
+    <None Include="caust20.bw" />
+    <None Include="caust21.bw" />
+    <None Include="caust22.bw" />
+    <None Include="caust23.bw" />
+    <None Include="caust24.bw" />
+    <None Include="caust25.bw" />
+    <None Include="caust26.bw" />
+    <None Include="caust27.bw" />
+    <None Include="caust28.bw" />
+    <None Include="caust29.bw" />
+    <None Include="caust30.bw" />
+    <None Include="caust31.bw" />
+    <None Include="caust00.bw" />
+    <None Include="caust01.bw" />
+    <None Include="caust02.bw" />
+    <None Include="caust03.bw" />
+    <None Include="caust04.bw" />
+    <None Include="caust05.bw" />
+    <None Include="caust06.bw" />
+    <None Include="caust07.bw" />
+    <None Include="caust08.bw" />
+    <None Include="caust09.bw" />
+    <None Include="caust10.bw" />
+    <None Include="caust11.bw" />
+    <None Include="caust12.bw" />
+    <None Include="caust13.bw" />
+    <None Include="caust14.bw" />
+    <None Include="caust15.bw" />
+    <None Include="caust16.bw" />
+    <None Include="caust17.bw" />
+    <None Include="caust18.bw" />
+    <None Include="caust19.bw" />
   </ItemGroup>
 </Project>

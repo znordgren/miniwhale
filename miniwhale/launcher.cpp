@@ -19,16 +19,7 @@
 #define _INIT_HEIGHT_ 500
 #define _INIT_WIDTH_ 700
 
-int main(int argc, char** argv)
-{
-	// Init Window
-	std::cout << "started" << std::endl;
-	glutInit(&argc, argv);
-	window::make_window(_INIT_HEIGHT_, _INIT_WIDTH_, 0);
-	
-	std::cout << "made window" << std::endl;
-
-	// Init GLEW
+void startGlew(void) {
 	if (glewInit() != GLEW_OK)
 	{
 		std::cerr << "Failed to initialize GLEW." << std::endl;
@@ -40,26 +31,41 @@ int main(int argc, char** argv)
 		std::cerr << "ARB_vertex_buffer_object not supported!" << std::endl;
 		exit(-2);
 	}
-
-	std::cout << "started glew" << std::endl;
-
-	app();
-
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-
-	glutMainLoop();
-
-	
-
-	// TODO: make splash screen
-	// TODO: make keyboard listener
-	// TODO: make mouse listener
-	// TODO: make debug overlay
-	// TODO: create managers
-	// TODO: load all assets
-	// TODO: launch app
 }
+
+
+//int main(int argc, char** argv)
+//{
+//	// Init Window
+//	std::cout << "started" << std::endl;
+//
+//	Window window = Window(argc, argv);
+//	window.make_window(_INIT_HEIGHT_, _INIT_WIDTH_, 0);
+//	
+//	std::cout << "made window" << std::endl;
+//
+//	// Init GLEW
+//	startGlew();
+//
+//	std::cout << "started glew" << std::endl;
+//
+//	app();
+//
+//	glutDisplayFunc(display);
+//	glutReshapeFunc(reshape);
+//
+//	glutMainLoop();
+//
+//	
+//
+//	// TODO: make splash screen
+//	// TODO: make keyboard listener
+//	// TODO: make mouse listener
+//	// TODO: make debug overlay
+//	// TODO: create managers
+//	// TODO: load all assets
+//	// TODO: launch app
+//}
 
 
 

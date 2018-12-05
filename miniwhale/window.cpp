@@ -11,24 +11,26 @@
 
 #include "includes.h"
 
-void window::make_window(GLint height, GLint width, GLint window_number)
+Window::Window(int argc, char** argv) {
+	glutInit(&argc, argv);
+}
+
+
+void Window::make_window(GLint height, GLint width, GLint window_number)
 {
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA); // set display mode
 	glutInitWindowSize(width, height);     // set window size
 	glutInitWindowPosition(10, 10);
-	__glutCreateWindowWithExit("GL 3.3 Test", ExitFunction);
+	glutCreateWindow("Miniwhale");
 	//glutCreateWindow("MiniWhale");
-
-
-
 }
 
-void window::bind_keyboard(void)
+void Window::register_keyboard_handler(void* keyboardFunction)
 {
 	
 }
 
-void window::bind_mouse(void)
+void Window::register_mouse_handler(void* mouseFunction)
 {
 
 }

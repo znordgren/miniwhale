@@ -1,21 +1,14 @@
 #pragma once
 
-namespace window
+class Window
 {
-
+public:
+	Window(int, char**);
 	void make_window(GLint, GLint, GLint);
-	void bind_keyboard(void); // TODO: make keyboard and key classes
-	void bind_mouse(void); // TODO: make mouse and click classes
+	void register_keyboard_handler(void*); // TODO: make keyboard and key classes
+	void register_mouse_handler(void*); // TODO: make mouse and click classes
+private:
 
 
-
-
-
-}
-
-
-
-
-
-
+};
 
