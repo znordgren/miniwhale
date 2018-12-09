@@ -15,42 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="launcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="whale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dino.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="texload.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="underwater.c">
+    <ClCompile Include="texload.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="whale.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="texload.h">

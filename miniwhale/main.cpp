@@ -6,7 +6,6 @@
 #include <GL/glut.h>
 
 #include "texload.h"
-#include "dino.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -21,33 +20,27 @@ enum {
 
 enum {
 	M_POSITIONAL, M_DIRECTIONAL, M_GREENISH_LIGHT, M_WHITE_LIGHT,
-	M_NO_CAUSTICS, M_WITH_CAUSTICS, M_SWITCH_MODEL,
+	M_NO_CAUSTICS, M_WITH_CAUSTICS,
 	M_INCREASE_RIPPLE_SIZE, M_DECREASE_RIPPLE_SIZE
 };
 
-enum {
-	MODEL_SPHERE, MODEL_CUBE, MODEL_DINO
-};
-
 static GLboolean HaveTexObj = GL_FALSE;
-static int object = MODEL_SPHERE;
 static int reportSpeed = 0;
 static GLfloat step = 1;
 static int dinoDisplayList;
 static GLfloat causticScale = 1.0;
 
 static GLfloat lightAmbient[] = { 0.5, 0.5, 0.5, 1.0 };
-static GLfloat lightDiffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-static GLfloat lightSpecular[] = { 1.0, 1.0, 1.0, 1.0 };
+static GLfloat lightDiffuse[] = { 0.5, 0.5, 0.5, 0.5 };
+static GLfloat lightSpecular[] = { 0.5, 0.5, 0.5, 0.5 };
 static GLfloat lightPosition[4];
-static GLfloat lightDiffuseColor[] = { 1.0, 1.5, 1.0, 1.0 };  /* XXX Green = 1.5 */
+static GLfloat lightDiffuseColor[] = { 1.0, 1.5, 1.0, 1.0 }; 
 static GLfloat defaultDiffuseMaterial[] = { 0.8, 0.8, 0.8, 1.0 };
 
 static int directionalLight = 1;
 static int showCaustics = 1, causticMotion = 1;
 static int useMipmaps = 1;
 static int currentCaustic = 0;
-static int causticIncrement = 1;
 
 static float lightAngle = 40.0, lightHeight = 30;
 static GLfloat angle = 0;   /* in degrees */
@@ -98,7 +91,7 @@ void updateWhalePosition()
 	GLfloat bezz[4] = { wayPoints[0][2],wayPoints[1][2],wayPoints[2][2],wayPoints[3][2] };
 
 	step += 0.0005f;
-	if (step >= 0.2f)
+	if (step >= 0.3f)
 	{
 		generateNewWaypoints();
 		step = 0;
@@ -114,47 +107,7 @@ GLfloat mp(const GLfloat x0, const GLfloat x1)
 	return xt;
 }
 
-void drawLightLocation(void)
-{
-	glPushMatrix();
-	glDisable(GL_LIGHTING);
-	glDisable(GL_TEXTURE_2D);
-	glColor3f(1.0, 1.0, 0.0);
-	if (directionalLight) {
-		/* Draw an arrowhead. */
-		glDisable(GL_CULL_FACE);
-		glTranslatef(lightPosition[0], lightPosition[1], lightPosition[2]);
-		glRotatef(lightAngle * -180.0 / M_PI, 0, 1, 0);
-		glRotatef(atan(lightHeight / 12) * 180.0 / M_PI, 0, 0, 1);
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(0, 0, 0);
-		glVertex3f(2, 1, 1);
-		glVertex3f(2, -1, 1);
-		glVertex3f(2, -1, -1);
-		glVertex3f(2, 1, -1);
-		glVertex3f(2, 1, 1);
-		glEnd();
-		/* Draw a white line from light direction. */
-		glColor3f(1.0, 1.0, 1.0);
-		glBegin(GL_LINES);
-		glVertex3f(0, 0, 0);
-		glVertex3f(5, 0, 0);
-		glEnd();
-		glEnable(GL_CULL_FACE);
-	}
-	else {
-		/* Draw a yellow ball at the light source. */
-		glTranslatef(lightPosition[0], lightPosition[1], lightPosition[2]);
-		glutSolidSphere(1.0, 5, 5);
-	}
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_LIGHTING);
-	glPopMatrix();
-}
-
-/* Draw a floor (possibly textured). */
-static void
-drawFloor(int pass)
+static void drawFloor(int pass)
 {
 	if (pass == PASS_NORMAL) {
 		if (HaveTexObj)
@@ -162,9 +115,6 @@ drawFloor(int pass)
 		else
 			glCallList(100);
 	}
-
-	/* The glTexCoord2f calls get ignored when in texture generation
-	   mode (ie, when modulating in caustics). */
 
 	glBegin(GL_QUADS);
 	glNormal3f(0.0, 1.0, 0.0);
@@ -179,8 +129,7 @@ drawFloor(int pass)
 	glEnd();
 }
 
-void
-drawObject(int pass)
+void drawWhale(int pass)
 {
 	if (pass == PASS_NORMAL) {
 		glDisable(GL_TEXTURE_2D);
@@ -212,15 +161,10 @@ void drawScene(int pass)
 
 	updateWhalePosition();
 
-
-	/* The 0.03 in the Y column is just to shift the texture coordinates
-	   a little based on Y (depth in the water) so that vertical faces
-	   (like on the cube) do not get totally vertical caustics. */
 	GLfloat sPlane[4] = { 0.05, 0.03, 0.0, 0.0 };
 	GLfloat tPlane[4] = { 0.0, 0.03, 0.05, 0.0 };
 
-	/* The causticScale determines how large the caustic "ripples" will
-	   be.  See the "Increate/Decrease ripple size" menu options. */
+	// The causticScale determines how large the caustic "ripples" will be.
 
 	sPlane[0] = 0.05 * causticScale;
 	sPlane[1] = 0.03 * causticScale;
@@ -248,7 +192,7 @@ void drawScene(int pass)
 	}
 
 	drawFloor(pass);
-	drawObject(pass);
+	drawWhale(pass);
 
 	if (pass == PASS_CAUSTIC) {
 		glEnable(GL_LIGHTING);
@@ -267,7 +211,7 @@ void display(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	/* Reposition the light source. */
+	// position the light source.
 	lightPosition[0] = 12 * cos(lightAngle);
 	lightPosition[1] = lightHeight;
 	lightPosition[2] = 12 * sin(lightAngle);
@@ -291,21 +235,14 @@ void display(void)
 	glLightfv(GL_LIGHT1, GL_SPECULAR, lightSpecular);
 	glEnable(GL_LIGHT1);
 
-
-
-	drawLightLocation();
-
-	/* Normal pass rendering the scene (caustics get added
-	   after this pass). */
+	// Normal pass rendering the scene
 	drawScene(PASS_NORMAL);
 
 	if (showCaustics) {
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
 
-		/* Multiply the source color (from the caustic luminance
-	   texture) with the previous color from the normal pass.  The
-	   caustics are modulated into the scene. */
+		// Multiply the source color (from the caustic luminance texture) with the previous color from the normal pass.
 		glBlendFunc(GL_ZERO, GL_SRC_COLOR);
 		glEnable(GL_BLEND);
 		drawScene(PASS_CAUSTIC);
@@ -328,16 +265,15 @@ void display(void)
 void
 idle(void)
 {
-	/* Advance the caustic pattern. */
-	currentCaustic = (currentCaustic + causticIncrement) % NUM_PATTERNS;
+	// Advance the caustic pattern.
+	currentCaustic = (currentCaustic++) % NUM_PATTERNS;
 	glutPostRedisplay();
 }
 
 void
 updateIdleFunc(void)
 {
-	/* Must be both displaying the caustic patterns and have the
-	   caustics in rippling motion to need an idle callback. */
+	// Must be both displaying the caustic patterns and have the caustics in rippling motion to need an idle callback.
 	if (showCaustics && causticMotion) {
 		glutIdleFunc(idle);
 	}
@@ -349,7 +285,7 @@ updateIdleFunc(void)
 void
 visible(int vis)
 {
-	/* Stop the animation when the window is not visible. */
+	// Stop the animation when the window is not visible.
 	if (vis == GLUT_VISIBLE)
 		updateIdleFunc();
 	else
@@ -359,14 +295,14 @@ visible(int vis)
 static void keyboard(unsigned char c, int x, int y)
 {
 	switch (c) {
-	case 27:  /* Escape quits. */
+	case 27:  // Escape quits.
 		exit(0);
 		break;
-	case 'R':  /* Simplistic benchmarking. */
+	case 'R':  // Simple benchmarking
 	case 'r':
 		reportSpeed = !reportSpeed;
 		break;
-	case ' ':  /* Spacebar toggles caustic rippling motion. */
+	case ' ':  // Spacebar toggles caustic rippling motion.
 		causticMotion = !causticMotion;
 		updateIdleFunc();
 		break;
@@ -375,12 +311,12 @@ static void keyboard(unsigned char c, int x, int y)
 
 void loadCaustics()
 {
-	/* Load the caustic ripple textures. */
+	// Load the caustic ripple textures.
 	int width, height;
 	int i;
 	GLubyte *imageData;
 	printf("loading caustics:");
-	for (i = 0; i < NUM_PATTERNS; i += causticIncrement) {
+	for (i = 0; i < NUM_PATTERNS; i++) {
 		char filename[80];
 
 		sprintf_s(filename, sizeof(filename), "caust%02d.bw", i);
@@ -398,14 +334,12 @@ void loadCaustics()
 		if (useMipmaps) {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_LUMINANCE, width, height,
-				GL_LUMINANCE, GL_UNSIGNED_BYTE, imageData);
+			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_LUMINANCE, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, imageData);
 		}
 		else {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, height, width, 0,
-				GL_LUMINANCE, GL_UNSIGNED_BYTE, imageData);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, height, width, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, imageData);
 		}
 		free(imageData);
 		if (!HaveTexObj)
@@ -418,10 +352,11 @@ void loadFloorRGB()
 {
 	/* Load an RGB file for the floor texture. */
 	int width, height;
+	char floorFilename[] = "floor.rgb";
 	GLubyte *imageData;
 	printf("loading RGB textures: floor");
 	fflush(stdout);
-	imageData = read_rgb_texture(FLOOR_FILE, &width, &height);
+	imageData = read_rgb_texture(floorFilename, &width, &height);
 	if (imageData == NULL) {
 		fprintf(stderr, "%s: could not load image file\n", FLOOR_FILE);
 		exit(1);
@@ -455,7 +390,7 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
-	glutInitWindowSize(700, 500);     // set window size
+	glutInitWindowSize(700, 500);
 	glutInitWindowPosition(10, 10);
 	glutCreateWindow("miniwhale");
 
@@ -465,16 +400,15 @@ int main(int argc, char **argv)
 	loadCaustics();
 	loadFloorRGB();
 
-
-	/* Setup the projection and view. */
+	// Setup the projection and view.
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(50.0, 1.0, 20.0, 200.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(0.0, 30.0, 110.0,  // eye
-		0.0, 8.0, 0.0,      // center
-		0.0, 1.0, 0.);      // up
+			  0.0, 8.0, 0.0,      // center
+			  0.0, 1.0, 0.);      // up
 
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuseColor);
 	glEnable(GL_LIGHT0);

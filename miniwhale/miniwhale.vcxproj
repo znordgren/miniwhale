@@ -138,21 +138,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dino.c" />
-    <ClCompile Include="launcher.cpp" />
-    <ClCompile Include="texload.c" />
-    <ClCompile Include="underwater.c" />
+    <ClCompile Include="texload.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="whale.cpp" />
-    <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dino.h" />
-    <ClInclude Include="includes.h" />
     <ClInclude Include="texload.h" />
-    <ClInclude Include="vector3.h" />
     <ClInclude Include="vertex.h" />
     <ClInclude Include="whale.h" />
-    <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="caust00.bw" />
